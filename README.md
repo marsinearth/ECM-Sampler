@@ -1,5 +1,5 @@
 # ECM Music Sampler
-_A kiosk app for sample music from [ECM Records](https://www.ecmrecords.com)_
+_A jukebox app for sample music from [ECM Records](https://www.ecmrecords.com)_
 
 ## This is under construction now
 
