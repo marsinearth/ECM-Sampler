@@ -1,14 +1,19 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { createStore } from 'redux'; 
-import registerServiceWorker from './registerServiceWorker';
-import Root from './components/Root';
+import { Provider } from 'react-redux';
+import ReduxModal from 'react-redux-modal';
+import samplerStore from './reducers';
+import App from './App';
 import './index.css';
-
-let store = createStore(Controller);
+import registerServiceWorker from './registerServiceWorker';
 
 render(
-  <Root store={store} />,
+  <Provider store={samplerStore}>    
+    <div>
+      <App />
+      <ReduxModal />
+    </div>
+  </Provider>,
   document.getElementById('root')
 );
 registerServiceWorker();

@@ -1,9 +1,39 @@
-let nextId = 0;
+let nextTrackId = 0, nextAlbumId = 0;
 
-export const setGenre = (filter) => {
+export const addTrack = (text) => {
   return {
-    type: 'SET_GENRE_FILTER',
+    type: 'ADD_TRACK',
+    id: nextTrackId++,
+    text
+  }
+}
+
+export const addAlbum = (text) => {
+  return {
+    type: 'ADD_ALBUM',
+    id: nextAlbumId++,
+    text
+  }
+}
+
+export const showTitle = (catl) => {
+  return {
+    type: 'SHOW_TITLE',
+    catl
+  }
+}
+
+export const setVisibilityFilter = (filter) => {
+  return {
+    type: 'SET_VISIBILITY_FILTER',
     filter
   }
-} 
+}
+
+export const togglePlay = (id) => {
+  return {
+   type: 'TOGGLE_PLAY',
+    id
+  }
+}
 
