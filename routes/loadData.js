@@ -2,16 +2,21 @@ const express = require('express');
 const router = express.Router();
 const redis = require('redis'),
       client = redis.createClient();
+let multi;
 
 /* GET users listing. */
 router.get('/', function(req, res) {
   client.on("error", (err) => {
     console.log("Redis error", err);
   });
-  client.hgetall("catalogue:1484665725", (err, reply) => {
+  client.multi([
+    ["hgetall","catalogue:1484665725", redis.print],
+    ["lrange","catalogue:1484665725:tracklist",0,-1]
+  ]).exec((err, replies) => {
     if(err) throw err;
-    let replyContainer = new Array();
-    replyContainer.push(reply);
+    let replyContainer = [], albumResultSet = replies[0];
+    albumResultSet.tracklist = JSON.parse("[" + replies[1] + "]");
+    replyContainer.push(albumResultSet);
     res.json(replyContainer);       
   });            
 });

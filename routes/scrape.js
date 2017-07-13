@@ -20,8 +20,8 @@ function *run(){
     .goto(URL)
     .wait('#mainpage .product .tracklisting')
     .evaluate(() => {                  
-      let doc = document, release, rMod, tracks;      
-      let albumObj = { catl: "", title: "", artists: "", release: "", album_jacket: "", description: "", sample_tracks: 0 };
+      let doc = document, release, rMod, track = {}, tracks = [];      
+      let albumObj = { catl: "", title: "", artists: "", release: "", album_jacket: "", description: "", genre: "" };
       albumObj.catl = '1484665725';
       albumObj.title = doc.querySelector('#mainpage .product .top .images img').title;
       albumObj.album_jacket = doc.querySelector('#mainpage .product .top .images img').src;
@@ -30,17 +30,19 @@ function *run(){
       rMod = release.substring(14, release.indexOf('<br'));
       albumObj.release = rMod.substr(3,2)+"."+rMod.substr(0,2)+"."+rMod.substr(6,4);   
       albumObj.description = doc.querySelector('#mainpage .product .press-item p').textContent;      
-      tracks = doc.querySelectorAll('#mainpage .product .container .row .tracklisting .playable');      
-      albumObj.sample_tracks = tracks.length;
-      albumObj.genre = tracks[0].getAttribute('data-movement').length === 0 ? 'Jazz' : 'Classical';
-      for(let i = 0; i < tracks.length; i++) {
-	albumObj["sample_track" + String([i]) + ":title"] = tracks[i].getAttribute('data-title');
-	albumObj["sample_track" + String([i]) + ":movement"] = tracks[i].getAttribute('data-movement');
-	albumObj["sample_track" + String([i]) + ":artists"] = tracks[i].getAttribute('data-artist');
-	albumObj["sample_track" + String([i]) + ":composer"] = tracks[i].getAttribute('data-composer');
-	albumObj["sample_track" + String([i]) + ":URL"] = tracks[i].getAttribute('data-track');
+      trackData = doc.querySelectorAll('#mainpage .product .container .row .tracklisting .playable');      
+      albumObj.genre = trackData[0].getAttribute('data-movement').length === 0 ? 'Jazz' : 'Classical';
+      for(let i = 0; i < trackData.length; i++) {
+	track = {
+	  "title": trackData[i].getAttribute('data-title'),
+	  "movement": trackData[i].getAttribute('data-movement'),
+	  "artists": trackData[i].getAttribute('data-artist'),
+	  "composer": trackData[i].getAttribute('data-composer'),
+	  "url": trackData[i].getAttribute('data-track')
+	};
+	tracks.push(track);
       }
-      return albumObj;
+      return [albumObj, tracks];
     })
     .end();    
 }
@@ -54,7 +56,18 @@ router.get('/', (req, res) => {
       if(err) throw err;
       xvfb.stop();
       //put data with catalogue hash
-      client.hmset("catalogue:" + result.catl, result);
+      let catl = "catalogue:" + result[0].catl;
+      let multi = client.multi().hmset(catl, result[0]);
+      result[1].forEach((o) => {
+	multi.rpush(catl + ":tracklist", JSON.stringify(o));
+      });
+      multi.exec((err, replies) => { 
+	if(err) {
+	  res.send(err);	  
+	} else { 
+	  res.send(replies);
+	}
+      });
     });   
   });  
 }); 
