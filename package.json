@@ -8,14 +8,16 @@
   "dependencies": {
     "body-parser": "~1.17.1",
     "cookie-parser": "~1.4.3",
-    "cors": "^2.8.3",
     "debug": "~2.6.3",
     "express": "~4.15.2",
     "jade": "~1.11.0",
+    "jsesc": "^2.5.1",
     "morgan": "~1.8.1",
-    "serve-favicon": "~2.4.2"
+    "nightmare": "^2.10.0",
+    "redis": "^2.7.1",
+    "serve-favicon": "~2.4.2",
+    "vo": "^4.0.2",
+    "xvfb": "^0.2.3"
   },
-  "devDependencies": {
-    "concurrently": "^3.4.0"
-  }
+  "devDependencies": {}
 }

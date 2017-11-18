@@ -1,39 +1,47 @@
-let nextTrackId = 0, nextAlbumId = 0;
-
-export const addTrack = (text) => {
-  return {
-    type: 'ADD_TRACK',
-    id: nextTrackId++,
-    text
-  }
+export const updateProgress = progress => {
+    return {
+        type: 'UPDATE_PROGRESS',
+        progress
+    }
 }
 
-export const addAlbum = (text) => {
-  return {
-    type: 'ADD_ALBUM',
-    id: nextAlbumId++,
-    text
-  }
+export const togglePlay = () => {
+    return {
+        type: 'TOGGLE_PLAY'
+    }
 }
 
-export const showTitle = (catl) => {
-  return {
-    type: 'SHOW_TITLE',
-    catl
-  }
+export const trackChange = index => {
+    return {
+        type: 'TRACK_CHANGE',
+        index
+    }
+}
+
+export const shuffle = songList => {
+    return {
+        type: 'SHUFFLE',
+        songList
+    }
 }
 
 export const setVisibilityFilter = (filter) => {
-  return {
-    type: 'SET_VISIBILITY_FILTER',
-    filter
-  }
+    return {
+        type: 'SET_VISIBILITY_FILTER',
+        filter
+    }
 }
 
-export const togglePlay = (id) => {
-  return {
-   type: 'TOGGLE_PLAY',
-    id
-  }
+export const setRepeatMode = mode => {
+    return {
+        type: 'REPEAT_MODE',
+        mode
+    }
+}
+
+export const toggleMute = () => {
+    return {
+        type: 'TOGGLE_MUTE',
+    }
 }
 

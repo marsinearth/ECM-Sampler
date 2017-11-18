@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { showTitle } from '../actions';
+//import { showTitle } from '../actions';
 import RReduxModal from '../components/reduxModalComp';
 
 const mapStateToProps = (state) => {
@@ -9,7 +9,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     onRemClick: () => {
-      dispatch(showTitle(ownProps.albumInfo.catl));
+      //dispatch(showTitle(ownProps.albumInfo.catl));
       ownProps.removeModal();
     }
   }

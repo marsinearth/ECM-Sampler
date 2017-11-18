@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { showTitle } from '../actions';
+//import { showTitle } from '../actions';
 import { modal } from 'react-redux-modal';
 import reduxModal from '../containers/reduxModal';
 import AlbumList from '../components/AlbumList';
@@ -26,7 +26,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {  
   return {
     onAlbumClick: (album) => {
-      dispatch(showTitle(album.catl));
+      //dispatch(showTitle(album.catl));
       //add modal with clicked album info
       modal.add(reduxModal, {
 	title: album.title,
